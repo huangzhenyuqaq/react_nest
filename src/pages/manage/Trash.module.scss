@@ -1,0 +1,41 @@
+.trashPage {
+  width: 100%;
+}
+
+.pageHeader {
+  margin-bottom: 24px;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.pageDesc {
+  font-size: 14px;
+  color: #999;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.emptyIcon {
+  font-size: 72px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.emptyText {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.emptyHint {
+  font-size: 14px;
+  color: #999;
+}

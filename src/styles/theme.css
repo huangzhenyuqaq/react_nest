@@ -1,0 +1,22 @@
+:root {
+  /* 基本色系（去除蓝紫渐变，使用温暖中性 + 青绿点缀） */
+  --bg: #f7f7f9;
+  --card-bg: #ffffff;
+  --text: #222222;
+  --muted: #6b7280;
+
+  /* 主色（用于按钮、强调） */
+  --accent: #2a8f7f; /* 青绿色 */
+  --accent-2: #f29d6e; /* 软珊瑚/暖色作为二次强调 */
+  --accent-rgb: 42,143,127;
+
+  /* 轻微背景高亮 */
+  --soft-accent: rgba(42,143,127,0.06);
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --shadow-1: 0 8px 32px rgba(34, 40, 49, 0.06);
+}
+
+/* 小帮助类，方便替换原先的透明高光 */
+.soft-accent-bg { background: var(--soft-accent); }
