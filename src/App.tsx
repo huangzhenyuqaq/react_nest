@@ -1,12 +1,14 @@
 import React from "react";
 import "./App.css";
+import { RouterProvider } from 'react-router-dom';
+import routerConfig from "./router";
+import 'antd/dist/reset.css';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>1111</p>
-      </header>
+    <div>
+      <RouterProvider router={routerConfig} />
     </div>
   );
 }
