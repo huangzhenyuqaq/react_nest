@@ -12,7 +12,7 @@ const Stat: FC = () => {
       <div className={styles.statsGrid}>
         <div className={styles.statCard}>
           <div className={styles.statNumber}>1,234442222245</div>
-          <div className={styles.statLabel}>总回答数</div>
+          <div className={styles.statLabel}>总回答数111</div>
         </div>
         <div className={styles.statCard}>
           <div className={styles.statNumber}>856</div>
