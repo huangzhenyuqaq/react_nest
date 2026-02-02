@@ -3,19 +3,23 @@ import classNames from "classnames";
 import styles from "./QuestionCard.module.scss";
 import { Popconfirm, Modal } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+
+
 
 type PropsType = {
-  _id: number;
+  _id: string;
   title: string;
   isPublished: boolean;
   isStar: boolean;
   answerCount: number;
   createAt: string;
-  deleteQuestion: (id: number) => void;
-  edQuestion: (id: number) => void;
+  deleteQuestion: (id: string) => void;
+  edQuestion: (id: string) => void;
 };
 const { confirm } = Modal;
 const QuestionCard: FC<PropsType> = (props) => {
+  const navigate = useNavigate();
   const {
     _id,
     title,
@@ -27,11 +31,12 @@ const QuestionCard: FC<PropsType> = (props) => {
     edQuestion,
   } = props;
 
-  function editQuestion(id: number) {
-    edQuestion(id);
+  function editQuestion(id: string) {
+    // 跳转到编辑问卷页面
+    navigate(`/question/edit/${id}`);
   }
 
-  function delQuestion(id: number) {
+  function delQuestion(id: string) {
     console.log(id);
     confirm({
       title: "确认删除吗？",

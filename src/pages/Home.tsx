@@ -1,12 +1,20 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Home.module.scss";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { MANAGE_INDEX_PATHNAME, REGISTER_PATHNAME } from "../router";
+import { useRequest } from "ahooks";
+import axios from 'axios'
 
 const Home: FC = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    axios.get('/api/test').then(res=>{
+        console.log("aaaaaa",res)
+    })
+    console.log("执行了");
+  }, []);
   function goManage() {
     navigate(MANAGE_INDEX_PATHNAME);
   }

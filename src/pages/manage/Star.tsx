@@ -9,7 +9,7 @@ const Star: FC = () => {
   useTitle("星标问卷");
   const [questList, setQuestList] = useState([
     {
-      _id: 5,
+      _id: "5",
       title: "张三",
       isPublished: true,
       isStar: true,
@@ -17,7 +17,7 @@ const Star: FC = () => {
       createAt: "2023-01-01 23:59:59",
     },
     {
-      _id: 6,
+      _id: "6",
       title: "李四",
       isPublished: false,
       isStar: true,
@@ -25,7 +25,7 @@ const Star: FC = () => {
       createAt: "2023-01-01 23:59:59",
     },
     {
-      _id: 7,
+      _id: "7",
       title: "王五",
       isPublished: true,
       isStar: true,
@@ -34,7 +34,7 @@ const Star: FC = () => {
     },
   ]);
 
-  function deleteQuestion(id: number) {
+  function deleteQuestion(id: string) {
     console.log(id);
     setQuestList(
       produce((draft) => {
@@ -46,7 +46,7 @@ const Star: FC = () => {
     );
   }
 
-  function edQuestion(id: number) {
+  function edQuestion(id: string) {
     setQuestList(
       produce((draft) => {
         const q = draft.find((item) => item._id == id);

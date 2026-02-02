@@ -1,10 +1,24 @@
 import React, { FC } from "react";
 import { Outlet, Link, useLocation } from 'react-router-dom'
 import styles from './ManageLayout.module.scss'
+import { message } from 'antd';
+import { useNavigate } from 'react-router-dom';
+
+import { createQuestionService } from '../services/question'
 
 const ManageLayout: FC = () => {
   const location = useLocation();
-
+  const navigate = useNavigate();
+  
+  async function addQuestion(){
+    const data=await createQuestionService()
+    const {id}=data||{}
+    if(id){
+      navigate(`/question/edit/${id}`)
+    }
+    console.log("创建问卷成功")
+  }
+  console.log("addQuestion",addQuestion)
   const isActive = (path: string) => {
     if (path === '/manage') {
       return location.pathname === '/manage';
@@ -16,9 +30,7 @@ const ManageLayout: FC = () => {
     <div className={styles.manageLayout}>
       <div className={styles.manageLayoutLeft}>
         <h2 className={styles.sidebarTitle}>问卷管理</h2>
-        <Link to="/question/create">
-          <button className={styles.createBtn}>+ 创建问卷</button>
-        </Link>
+        <button className={styles.createBtn} onClick={() => addQuestion()}>+ 创建问卷</button>
         <nav className={styles.navList}>
           <Link
             to="/manage/list"

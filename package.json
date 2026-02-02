@@ -14,8 +14,11 @@
     "@types/react-dom": "^19.2.2",
     "ahooks": "^3.9.6",
     "antd": "^6.0.0",
+    "axios": "^1.13.4",
     "classnames": "^2.5.1",
+    "formik": "^2.4.9",
     "immer": "^10.2.0",
+    "mockjs": "^1.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.6",
@@ -26,9 +29,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -50,11 +53,14 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
     "@eslint/js": "^9.39.0",
+    "@types/mockjs": "^1.0.10",
     "@types/styled-components": "^5.1.35",
     "eslint": "^8.57.1",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.5.0",
+    "nodemon": "^3.1.11",
     "typescript-eslint": "^8.46.2"
   }
 }

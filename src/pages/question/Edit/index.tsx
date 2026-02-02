@@ -1,9 +1,20 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import styles from './index.module.scss';
 import { useParams } from 'react-router-dom';
+import { getQuestionService } from '../../../services/question';
+
+
+
 
 const Edit: FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id='' } = useParams<{ id: string }>();
+  useEffect(()=>{
+     async function getQuestion(){
+        const data=await getQuestionService(id)
+        console.log("data",data)
+     }
+     getQuestion()
+  },[])
   console.log(id)
   return (
     <div className={styles.editPage}>

@@ -13,7 +13,7 @@ const List1: FC = () => {
   // console.log("keyword",searchParams.get("keyword"))
   const [questList, setQuestList] = useState([
     {
-      _id: 1,
+      _id: "1",
       title: "张三",
       isPublished: true,
       isStar: true,
@@ -21,7 +21,7 @@ const List1: FC = () => {
       createAt: "2023-01-01 23:59:59",
     },
     {
-      _id: 2,
+      _id: "2",
       title: "李四",
       isPublished: false,
       isStar: false,
@@ -29,7 +29,7 @@ const List1: FC = () => {
       createAt: "2023-01-01 23:59:59",
     },
     {
-      _id: 3,
+      _id: "3",
       title: "王五",
       isPublished: true,
       isStar: true,
@@ -49,7 +49,7 @@ const List1: FC = () => {
     setQuestList(
       produce((draft) => {
         draft.push({
-          _id: id,
+          _id: id.toString(),
           title: title_input.value,
           isPublished: false,
           isStar: false,
@@ -61,7 +61,7 @@ const List1: FC = () => {
     title_input.value = '';
   }
 
-  function deleteQuestion(id: number) {
+  function deleteQuestion(id: string) {
     console.log(id);
     setQuestList(
       produce((draft) => {
@@ -73,7 +73,7 @@ const List1: FC = () => {
     );
   }
 
-  function edQuestion(id: number) {
+  function edQuestion(id: string) {
     setQuestList(
       produce((draft) => {
         const q = draft.find((item) => item._id == id);
