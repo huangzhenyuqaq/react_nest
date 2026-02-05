@@ -1,21 +1,11 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from './index.module.scss';
-import { useParams } from 'react-router-dom';
-import { getQuestionService } from '../../../services/question';
-
+import useLoadQuestionData from '../../../hooks/useLoadQuestionData';
 
 
 
 const Edit: FC = () => {
-  const { id='' } = useParams<{ id: string }>();
-  useEffect(()=>{
-     async function getQuestion(){
-        const data=await getQuestionService(id)
-        console.log("data",data)
-     }
-     getQuestion()
-  },[])
-  console.log(id)
+  const {loading, data}=useLoadQuestionData()
   return (
     <div className={styles.editPage}>
       <div className={styles.pageHeader}>
@@ -23,10 +13,8 @@ const Edit: FC = () => {
         <p className={styles.pageDesc}>设计您的问卷，添加各种类型的问题</p>
       </div>
 
-      <div className={styles.editorPlaceholder}>
-        <div className={styles.placeholderIcon}>✏️</div>
-        <p className={styles.placeholderText}>问卷编辑器</p>
-        <p className={styles.placeholderHint}>拖拽组件到此处开始设计您的问卷</p>
+      <div>
+        {loading ? <p>loading</p> : <p>{(data as any).title}</p>}
       </div>
     </div>
   );

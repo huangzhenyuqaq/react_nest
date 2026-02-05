@@ -15,7 +15,6 @@ type PropsType = {
   answerCount: number;
   createAt: string;
   deleteQuestion: (id: string) => void;
-  edQuestion: (id: string) => void;
 };
 const { confirm } = Modal;
 const QuestionCard: FC<PropsType> = (props) => {
@@ -28,7 +27,6 @@ const QuestionCard: FC<PropsType> = (props) => {
     answerCount,
     createAt,
     deleteQuestion,
-    edQuestion,
   } = props;
 
   function editQuestion(id: string) {

@@ -3,22 +3,31 @@ import { Outlet, Link, useLocation } from 'react-router-dom'
 import styles from './ManageLayout.module.scss'
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import {useRequest} from 'ahooks'
 
 import { createQuestionService } from '../services/question'
 
 const ManageLayout: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  
-  async function addQuestion(){
-    const data=await createQuestionService()
-    const {id}=data||{}
-    if(id){
-      navigate(`/question/edit/${id}`)
+  const {loading,error,run:addQuestion}=useRequest(createQuestionService, {
+    manual: true,
+    onSuccess(result){
+       navigate(`/question/edit/${(result as any).id || ''}`)
+       message.success("创建问卷成功")
     }
-    console.log("创建问卷成功")
-  }
-  console.log("addQuestion",addQuestion)
+  })
+  // async function addQuestion(){
+  //   setLoading(true)
+  //   const data=await createQuestionService()
+  //   const {id}=data||{}
+  //   if(id){
+  //     navigate(`/question/edit/${id}`)
+  //   }
+  //   console.log("创建问卷成功")
+  //   setLoading(false)
+  // }
+  // console.log("addQuestion",addQuestion)
   const isActive = (path: string) => {
     if (path === '/manage') {
       return location.pathname === '/manage';
@@ -30,7 +39,9 @@ const ManageLayout: FC = () => {
     <div className={styles.manageLayout}>
       <div className={styles.manageLayoutLeft}>
         <h2 className={styles.sidebarTitle}>问卷管理</h2>
-        <button className={styles.createBtn} onClick={() => addQuestion()}>+ 创建问卷</button>
+        <button className={styles.createBtn} onClick={() => addQuestion()} disabled={loading}>
+          + 创建问卷
+        </button> 
         <nav className={styles.navList}>
           <Link
             to="/manage/list"

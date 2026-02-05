@@ -1,87 +1,33 @@
-import React, { FC, useState, useEffect } from "react";
-import { produce } from "immer";
+import React, { FC, useEffect, useState } from "react";
 
 import styles from "./List.module.scss";
 import QuestionCard from "../../components/QuestionCard";
 import { useTitle } from "ahooks";
-import { Empty } from 'antd';
+import { Empty, Spin } from "antd";
+import { getQuestionListService } from "../../services/question";
+import useLoadSearchListData from "../../hooks/useLoadSearchList";
+import { useRequest } from "ahooks";
 // import {useSearchParams} from 'react-router-dom';
 
 const List1: FC = () => {
   useTitle("我的问卷");
+  useEffect(() => {
+    searchList()
+  }, [])
   // const [searchParams, setSearchParams] = useSearchParams();
   // console.log("keyword",searchParams.get("keyword"))
-  const [questList, setQuestList] = useState([
-    {
-      _id: "1",
-      title: "张三",
-      isPublished: true,
-      isStar: true,
-      answerCount: 100,
-      createAt: "2023-01-01 23:59:59",
-    },
-    {
-      _id: "2",
-      title: "李四",
-      isPublished: false,
-      isStar: false,
-      answerCount: 10,
-      createAt: "2023-01-01 23:59:59",
-    },
-    {
-      _id: "3",
-      title: "王五",
-      isPublished: true,
-      isStar: true,
-      answerCount: 22,
-      createAt: "2023-01-01 23:59:59",
-    },
-  ]);
+  // const [questList, setQuestList] = useState([]);
+  // const [total, setTotal] = useState(0);
 
-  useEffect(() => {
-    console.log("执行了");
-  }, [questList]);
-
-  function addQuestion(id: number) {
-    const title_input = document.getElementById(
-      "title_input"
-    ) as HTMLInputElement;
-    setQuestList(
-      produce((draft) => {
-        draft.push({
-          _id: id.toString(),
-          title: title_input.value,
-          isPublished: false,
-          isStar: false,
-          answerCount: 0,
-          createAt: "2023-01-01 23:59:59",
-        });
-      })
-    );
-    title_input.value = '';
-  }
-
+  const [keyword, setKeyword] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const { searchList,loading, data, error  } = useLoadSearchListData({keyword,page,pageSize});
+  const { list = [], total = 0 } = data || {};
+  // const { data={},loading}=useLoadQuestionListData()
+ 
   function deleteQuestion(id: string) {
     console.log(id);
-    setQuestList(
-      produce((draft) => {
-        draft.splice(
-          draft.findIndex((item) => item._id === id),
-          1
-        );
-      })
-    );
-  }
-
-  function edQuestion(id: string) {
-    setQuestList(
-      produce((draft) => {
-        const q = draft.find((item) => item._id == id);
-        if (q) {
-          q.title = "已经阅读问卷";
-        }
-      })
-    );
   }
 
   return (
@@ -93,36 +39,47 @@ const List1: FC = () => {
       <div className={styles.searchBar}>
         <input
           type="text"
-          className={styles.searchInput}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
           placeholder="请输入问卷标题"
+          className={styles.searchInput}
           id="title_input"
         />
         <button
-          className={styles.addBtn}
-          onClick={() => addQuestion(questList.length + 1)}
+          className={styles.searchButton}
+          onClick={() => searchList()}
         >
-          + 添加问卷
+          搜索
         </button>
       </div>
 
-      <div className={styles.questionList}>
-        {questList.length > 0 &&
-        questList.map((item) => (
-          <QuestionCard
-            deleteQuestion={deleteQuestion}
-            edQuestion={edQuestion}
-            key={item._id}
-            _id={item._id}
-            title={item.title}
-            isPublished={item.isPublished}
-            isStar={item.isStar}
-            answerCount={item.answerCount}
-            createAt={item.createAt}
-          />
-        ))}
+      <div>
+        {loading && (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Spin />
+          </div>
+        )}
+        <div className={styles.questionList}>
+          {!loading &&
+            list.length > 0 &&
+            list.map((item: any) => (
+              <QuestionCard
+                deleteQuestion={deleteQuestion}
+                key={item._id}
+                _id={item._id}
+                title={item.title}
+                isPublished={item.isPublished}
+                isStar={item.isStar}
+                answerCount={item.answerCount}
+                createAt={item.createAt}
+              />
+            ))}
+        </div>
       </div>
 
-      {questList.length === 0 && <Empty description="暂无问卷，快去创建一个吧" />}
+      {!loading && list.length === 0 && (
+        <Empty description="暂无问卷，快去创建一个吧" />
+      )}
     </div>
   );
 };

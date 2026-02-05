@@ -16,7 +16,7 @@ const MainLayout: FC = () => {
           <div className={styles.logo}>问卷调查系统</div>
           <nav className={styles.nav}>
             <Link to="/" className={styles.navLink}>首页</Link>
-            <Link to="/manage" className={styles.navLink}>管理问卷</Link>
+            <Link to="/manage/list" className={styles.navLink}>管理问卷</Link>
             <Link to={LOGIN_PATHNAME} className={styles.navLink}>登录</Link>
             {/* <button onClick={handleLoginClick} className={styles.navLink}>登录</button> */}
             <Link to={REGISTER_PATHNAME} className={styles.navLink}>注册</Link>

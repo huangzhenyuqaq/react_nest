@@ -13,9 +13,6 @@ res => {
         // 必须返回 config，否则后续请求无法继续
         const resData=(res.data||{})as ResType
         const {code,msg,data}=resData
-        console.log("code",code)
-        console.log("msg",msg)
-        console.log("data",data)
         if(code!==200){
             if(msg){
                 message.error(msg)
