@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { produce } from "immer";
 import styles from "./Star.module.scss";
 import { Spin, Pagination } from "antd/es";
+import { SearchOutlined } from "@ant-design/icons";
+import { Button, Input } from "antd";
 import type { PaginationProps } from "antd";
 import QuestionCard from "../../components/QuestionCard";
 import useLoadSearchListData from "../../hooks/useLoadSearchList";
@@ -40,17 +42,17 @@ const Star: FC = () => {
         <h1 className={styles.pageTitle}>星标问卷</h1>
       </div>
       <div className={styles.searchBar}>
-        <input
-          type="text"
-          className={styles.searchInput}
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-          placeholder="请输入问卷标题"
-          id="title_input"
-        />
-        <button onClick={() => searchList()} className={styles.searchButton}>
+        <Input placeholder="请输入问卷标题" value={keyword}  onChange={(e) => setKeyword(e.target.value)}/>
+        <Button
+          onClick={() => {
+            setPage(1);
+            searchList();
+          }}
+          type="primary"
+          icon={<SearchOutlined />}
+        >
           搜索
-        </button>
+        </Button>
       </div>
 
       <div className={styles.questionList}>
@@ -74,16 +76,16 @@ const Star: FC = () => {
             />
           ))}
       </div>
- 
-        <div className={styles.pagination}>
-          <Pagination
-            current={page}
-            pageSize={pageSize}
-            total={total}
-            align="center"
-            onChange={onChangePage}
-          />
-        </div>
+
+      <div className={styles.pagination}>
+        <Pagination
+          current={page}
+          pageSize={pageSize}
+          total={total}
+          align="center"
+          onChange={onChangePage}
+        />
+      </div>
 
       {!loading && list.length === 0 && (
         <div className={styles.emptyState}>

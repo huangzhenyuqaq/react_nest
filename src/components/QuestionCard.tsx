@@ -1,11 +1,12 @@
 import React, { FC } from "react";
 import classNames from "classnames";
 import styles from "./QuestionCard.module.scss";
-import { Popconfirm, Modal } from "antd";
+import { Popconfirm, Modal, message } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
+
 import { useNavigate } from "react-router-dom";
-
-
+import { updateQuestionService } from "../services/question";
+import { useRequest } from "ahooks";
 
 type PropsType = {
   _id: string;
@@ -29,10 +30,26 @@ const QuestionCard: FC<PropsType> = (props) => {
     deleteQuestion,
   } = props;
 
-  function editQuestion(id: string) {
-    // 跳转到编辑问卷页面
-    navigate(`/question/edit/${id}`);
-  }
+  // function starQuestion(id: string) {
+  //   // 标星取消标星 调用接口updateQuestionService，使用useRequest
+
+  //   const {run:updateQuestion}=useRequest(async ()=>await updateQuestionService(id),{
+  //     manual:true,
+  //     onSuccess(result){
+  //       message.success(result.msg)
+  //     }
+  //   })
+    
+  // }
+  const { loading:changeStarLoading,run: starQuestion } = useRequest(
+    async () => await updateQuestionService(_id,{isStar: isStar}),
+    { manual: true,
+      onSuccess(result) {
+        console.log("result",result);
+        message.success(result.msg);
+      },
+     }
+  );
 
   function delQuestion(id: string) {
     console.log(id);
@@ -79,8 +96,8 @@ const QuestionCard: FC<PropsType> = (props) => {
       </div>
 
       <div className={styles.actions}>
-        <button className={styles.editBtn} onClick={() => editQuestion(_id)}>
-          编辑问卷
+        <button className={styles.editBtn} onClick={() => starQuestion()} disabled={changeStarLoading}> 
+          {isStar ? "取消标星" : "标星"}
         </button>
         {/* <Popconfirm
           title="确认删除吗？"

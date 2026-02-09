@@ -3,32 +3,35 @@ import React, { FC, useEffect, useState } from "react";
 import styles from "./List.module.scss";
 import QuestionCard from "../../components/QuestionCard";
 import { useTitle } from "ahooks";
-import { Empty, Spin } from "antd";
-import { getQuestionListService } from "../../services/question";
+import { Empty, Spin, Input, Button,Pagination } from "antd";
+import type { PaginationProps } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import useLoadSearchListData from "../../hooks/useLoadSearchList";
-import { useRequest } from "ahooks";
-// import {useSearchParams} from 'react-router-dom';
 
 const List1: FC = () => {
   useTitle("我的问卷");
-  useEffect(() => {
-    searchList()
-  }, [])
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // console.log("keyword",searchParams.get("keyword"))
-  // const [questList, setQuestList] = useState([]);
-  // const [total, setTotal] = useState(0);
-
   const [keyword, setKeyword] = useState("");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const { searchList,loading, data, error  } = useLoadSearchListData({keyword,page,pageSize});
+  useEffect(() => {
+    searchList();
+  }, [page, pageSize]);
+
+
+  const { searchList, loading, data, error } = useLoadSearchListData({
+    keyword,
+    page,
+    pageSize,
+  });
   const { list = [], total = 0 } = data || {};
-  // const { data={},loading}=useLoadQuestionListData()
- 
+
   function deleteQuestion(id: string) {
     console.log(id);
   }
+  const onChangePage: PaginationProps["onChange"] = (page, pageSize) => {
+    setPage(page);
+    setPageSize(pageSize);
+  };
 
   return (
     <div className={styles.listPage}>
@@ -37,20 +40,21 @@ const List1: FC = () => {
       </div>
 
       <div className={styles.searchBar}>
-        <input
-          type="text"
+        <Input
+          placeholder="请输入问卷标题"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          placeholder="请输入问卷标题"
-          className={styles.searchInput}
-          id="title_input"
         />
-        <button
-          className={styles.searchButton}
-          onClick={() => searchList()}
+        <Button
+          onClick={() => {
+            setPage(1);
+            searchList();
+          }}
+          type="primary"
+          icon={<SearchOutlined />}
         >
           搜索
-        </button>
+        </Button>
       </div>
 
       <div>
@@ -75,6 +79,16 @@ const List1: FC = () => {
               />
             ))}
         </div>
+        
+      <div className={styles.pagination}>
+        <Pagination
+          current={page}
+          pageSize={pageSize}
+          total={total}
+          align="center"
+          onChange={onChangePage}
+        />
+      </div>
       </div>
 
       {!loading && list.length === 0 && (

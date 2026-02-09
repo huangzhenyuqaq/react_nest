@@ -30,3 +30,9 @@ export async function getQuestionListService(opt:Partial<searchOption>={}):Promi
     const data=(await axios.get(url,{params:opt})) as ResDataType
     return data
 }
+
+export async function updateQuestionService(id:string,opt:{[key:string]:any}):Promise<ResDataType>{
+    const url=`/api/question/${id}`
+    const data=(await axios.patch(url,opt)) as ResDataType
+    return data
+}
