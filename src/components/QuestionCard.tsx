@@ -99,14 +99,6 @@ const QuestionCard: FC<PropsType> = (props) => {
       <button className={styles.editBtn} onClick={() => starQuestion()} disabled={changeStarLoading}> 
           {isStar ? "取消标星" : "标星"}
         </button>
-        {/* <Popconfirm
-          title="确认删除吗？"
-          onConfirm={() => delQuestion(_id)}
-          okText="确认"
-          cancelText="取消"
-        >
-          <button className={styles.deleteBtn}>删除</button>
-        </Popconfirm> */}
         <button className={styles.deleteBtn} onClick={() => delQuestion(_id)}>删除</button>
       </div>
     </div>
