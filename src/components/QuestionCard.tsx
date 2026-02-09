@@ -96,7 +96,7 @@ const QuestionCard: FC<PropsType> = (props) => {
       </div>
 
       <div className={styles.actions}>
-        <button className={styles.editBtn} onClick={() => starQuestion()} disabled={changeStarLoading}> 
+      <button className={styles.editBtn} onClick={() => starQuestion()} disabled={changeStarLoading}> 
           {isStar ? "取消标星" : "标星"}
         </button>
         {/* <Popconfirm
