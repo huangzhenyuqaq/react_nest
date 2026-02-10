@@ -1,9 +1,11 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from "./Trash.module.scss";
-import { Table, Spin,Button, Input,Pagination } from "antd";
+import { Table, Spin,Button, Input,Pagination, message } from "antd";
 import type { PaginationProps } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import useLoadSearchListData from "../../hooks/useLoadSearchList";
+import { recoverQuestionService, deleteQuestionService } from "../../services/question";
+import { useRequest } from "ahooks";
 
 const Trash: FC = () => {
   const [keyword, setKeyword] = useState("");
@@ -62,6 +64,28 @@ const Trash: FC = () => {
   function deleteQuestions(ids: string[]) {
     console.log(ids);
   }
+  const { loading:recoverQuestionLoading,run: recoverQuestion } = useRequest(
+    async () => {
+      let ids=selectedIds.join(",");
+      return await recoverQuestionService({ids});
+    },
+    { manual: true,
+      onSuccess(result) {
+        message.success(result.msg);
+      },
+    }
+  );
+  const { loading:deleteQuestionLoading,run: deleteQuestion } = useRequest(
+    async () => {
+      let ids=selectedIds.join(",");
+      return await deleteQuestionService({ids});
+    },
+    { manual: true,
+      onSuccess(result) {
+        message.success(result.msg);
+      },
+    }
+  );
   return (
     <div className={styles.trashPage}>
       <div className={styles.pageHeader}>
@@ -92,7 +116,9 @@ const Trash: FC = () => {
         )}
         {!loading && list.length > 0 && (
           <div>
-            <button onClick={() => deleteQuestions(selectedIds)}>删除选中问卷</button>
+            <Button className={styles.recoverBtn} type="primary" disabled={recoverQuestionLoading} onClick={() => recoverQuestion()}>恢复选中问卷</Button>
+            <Button className={styles.deleteBtn} type="primary" disabled={deleteQuestionLoading} onClick={() => deleteQuestion()}>删除选中问卷</Button>
+
           <Table
             columns={tableColumns}
             dataSource={list}

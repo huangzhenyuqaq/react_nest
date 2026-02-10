@@ -5,7 +5,7 @@ import { Popconfirm, Modal, message } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
 
 import { useNavigate } from "react-router-dom";
-import { updateQuestionService } from "../services/question";
+import { updateQuestionService, duplicateQuestionService } from "../services/question";
 import { useRequest } from "ahooks";
 
 type PropsType = {
@@ -51,6 +51,14 @@ const QuestionCard: FC<PropsType> = (props) => {
      }
   );
 
+  const { loading:duplicateQuestionLoading,run: duplicateQuestion } = useRequest(
+    async () => await duplicateQuestionService(_id),
+    { manual: true,
+      onSuccess(result) {
+        message.success(result.msg);
+      },
+    }
+  );
   function delQuestion(id: string) {
     console.log(id);
     confirm({
@@ -98,7 +106,10 @@ const QuestionCard: FC<PropsType> = (props) => {
       <div className={styles.actions}>
       <button className={styles.editBtn} onClick={() => starQuestion()} disabled={changeStarLoading}> 
           {isStar ? "取消标星" : "标星"}
-        </button>
+      </button>
+      <button className={styles.editBtn} onClick={() => duplicateQuestion()} disabled={duplicateQuestionLoading}> 
+          复制
+      </button>
         <button className={styles.deleteBtn} onClick={() => delQuestion(_id)}>删除</button>
       </div>
     </div>

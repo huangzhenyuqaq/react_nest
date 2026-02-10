@@ -36,3 +36,22 @@ export async function updateQuestionService(id:string,opt:{[key:string]:any}):Pr
     const data=(await axios.patch(url,opt)) as ResDataType
     return data
 }
+
+//复制问卷
+export async function duplicateQuestionService(id:string):Promise<ResDataType>{
+    const url=`/api/question/duplicate/${id}`
+    const data=(await axios.post(url)) as ResDataType
+    return data
+}
+//恢复问卷
+export async function recoverQuestionService(opt:{[key:string]:any}):Promise<ResDataType>{
+    const url=`/api/question/recover`
+    const data=(await axios.post(url,opt)) as ResDataType
+    return data
+}
+//删除问卷
+export async function deleteQuestionService(opt:{[key:string]:any}):Promise<ResDataType>{
+    const url=`/api/question/delete`
+    const data=(await axios.post(url,opt)) as ResDataType
+    return data
+}
